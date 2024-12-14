@@ -16,20 +16,17 @@ export const revalidate = 15; // it does the same functionality as being putted 
 
 export default async function MessagesPage() {
   // unstable_noStore(); it is used as dynamic constant with force-dynamic value but it is just for this component
-  const response = await fetch(
-    'http://localhost:8080/messages'
-    //  , {
-    //   // cache: 'no-store',
-    // next: {
-    //     revalidate: 5, //number of second to use the data then revalidate
-    // tags:["any tag"]
-    //  these tags are used with revalidate tags as it is connected to cache
-    // you can set it in the request header and you can set the same tag into multiple requests
-    // and set multiple tags to the same request
-    // it works just like revalidate path but with tags instead of pages ans layouts
-    //    },
-    //  }
-  );
+  const response = await fetch('http://localhost:8080/messages', {
+    // cache: 'no-store',
+    next: {
+      // revalidate: 5, //number of second to use the data then revalidate
+      tags: ['msg'],
+      //  these tags are used with revalidate tags as it is connected to cache
+      // you can set it in the request header and you can set the same tag into multiple requests
+      // and set multiple tags to the same request
+      // it works just like revalidate path but with tags instead of pages ans layouts
+    },
+  });
   const messages = await response.json();
 
   if (!messages || messages.length === 0) {
