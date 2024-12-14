@@ -1,10 +1,11 @@
 import Messages from '@/components/messages';
+import { getMessages } from '@/lib/messages';
 // this fn is another way to avoid data cache if needed
-import { unstable_noStore } from 'next/cache';
+// import { unstable_noStore } from 'next/cache';
 // you can set the revalidate as a special constant and the next js will take
 // care of it instead of putting it in each header provided that you name it revalidate
 // and export it
-export const revalidate = 15; // it does the same functionality as being putted in the header.
+// export const revalidate = 15; // it does the same functionality as being putted in the header.
 // there is another special constant named dynamic that needs to be exported and named
 // dynamic like this
 // export const dynamic = "force-dynamic"
@@ -16,18 +17,19 @@ export const revalidate = 15; // it does the same functionality as being putted 
 
 export default async function MessagesPage() {
   // unstable_noStore(); it is used as dynamic constant with force-dynamic value but it is just for this component
-  const response = await fetch('http://localhost:8080/messages', {
-    // cache: 'no-store',
-    next: {
-      // revalidate: 5, //number of second to use the data then revalidate
-      tags: ['msg'],
-      //  these tags are used with revalidate tags as it is connected to cache
-      // you can set it in the request header and you can set the same tag into multiple requests
-      // and set multiple tags to the same request
-      // it works just like revalidate path but with tags instead of pages ans layouts
-    },
-  });
-  const messages = await response.json();
+  // const response = await fetch('http://localhost:8080/messages', {
+  //   // cache: 'no-store',
+  //   next: {
+  //     // revalidate: 5, //number of second to use the data then revalidate
+  //     tags: ['msg'],
+  //     //  these tags are used with revalidate tags as it is connected to cache
+  //     // you can set it in the request header and you can set the same tag into multiple requests
+  //     // and set multiple tags to the same request
+  //     // it works just like revalidate path but with tags instead of pages ans layouts
+  //   },
+  // });
+  // const messages = await response.json();
+  const messages =await getMessages();
 
   if (!messages || messages.length === 0) {
     return <p>No messages found</p>;

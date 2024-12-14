@@ -8,8 +8,8 @@ export default function NewMessagePage() {
     'use server';
 
     const message = formData.get('message');
-    // addMessage(message);
-    revalidateTag('msg');
+    addMessage(message);
+    // revalidateTag('msg');
     redirect('/messages');
   }
 
